@@ -1,0 +1,102 @@
+|| OVERVIEW ||
+
+Welcome to Ghost50, a modern take on the word game "ghost."
+Ghost50 is fundamentally a website where users can make accounts and play games of Ghost50, 
+in multiplayer mode or against our AI. 
+
+
+RULES OF GHOST50:
+In a round of ghost50, everyone is a winner!*
+
+*Well, except the loser. But you get the picture.
+
+Players go in a circle, submitting one letter at a time, forming a growing word fragment. 
+You lose (and everyone else wins) if the letter you entered forms a 4-letter or longer word, 
+if the letter you type cannot be built upon to later form a valid word, 
+or if the time you had to enter a letter runs out. 
+The "pro move" is to type a letter that doesn't form a word but that will continue the formation of a word, 
+so another player loses by either being forced to complete the word, 
+or, not knowing what word is being spelled, inputs a letter that cannot form a word.
+Losing decreases your all-time score by 1. Winning increases your all-time score by 1. 
+
+Example: User 1 types "g", user 2 types "h", user 3 types "o", user 1 types "s", and user 2 types "t". 
+Here, user 2 loses by spelling the valid word "ghost". Sorry, user 2 :(
+
+
+
+HOW TO RUN // HOUSEKEEPING:
+CS50:
+The project is housed in the directory finalproject (creative, we know), and can be run through the Cloud 9 IDE (including the CS50 IDE). 
+To run the website, in one terminal window, cd to finalproject, and start mySQL by typing "mysql50 start". 
+Then, in another terminal window, cd to finalproject, and start Flask by typing "flask run". 
+Now, you can access the website via the IDE's Web Server. 
+Now:
+Clone source files, set up mySQL and update keys, then run either locally or deploy to a hosting service.
+
+|| GET ORIENTED ||
+
+MAKE YOURSELF KNOWN:
+If you don't yet have an account, create one at our register page, accessible from the navigation bar at the top. 
+Once you have an account, log in with your username and password to play ghost50!
+
+CHANGE PASSWORD:
+Changing passwords is easy, just access the change password page from the navigation bar once logged in.
+
+SWITCH USERS:
+If you want to change accounts, simply click log out in the navigation bar and log in as a different user.
+
+INDEX:
+This is the ghost50 homepage (index.html). 
+Along with the familiar navigation bar across the top, 
+our index page displays the summary of ghost50 rules and the current high scores table, with highest-scoring users at the top.
+Using the navigation bar or the links at the top of the index page, 
+users can either create a round of ghost50, join a round of ghost50, or play against our AI.
+
+
+|| PLAY MULTIPLAYER ||
+
+CREATE YOUR OWN GAME:
+To create your own round of ghost50 (a "game"),
+go to the create game page from the navigation bar or the index.
+Enter a unique name for your game. 
+You'll then be taken to the waiting room for your game.
+Other users can join your game, and as they join, the waiting room will dynamically update to display their username and status.
+When all the players you want in your game are displayed, hit start game, and your status will display as ready.
+Once everyone hits start game (and are "ready"), the game will begin.
+
+JOINING A GAME:
+If you're feeling a little less independent, 
+go to the join room page from the navigation bar or the index.
+This will dynamically display all games that are still accepting players.
+If you see a game you'd like to join, just click join game next to that game, and you'll be taken to the respective waiting room for that game.
+Again, once all the players you'd like are displayed in the waiting room, click start game, and your status will display as ready.
+Once all members of the waiting room click start game (and are "ready"), the game will begin. 
+
+GAME PLAY:
+Across the top of the gameplay page, you'll see all the users playing and each user's overall score, 
+with the username of the player whose turn it is highlighted in blue.
+The current word fragment and the timer for the current turn is also displayed at the top of the page.
+Every time it's your turn, the text box to enter a letter will be displayed to you.
+Enter your letter before time runs out!
+When someone loses and the game ends, an overlay is displayed with the winners and loser.
+Clicking on the X will take you back to our homepage, with your score updated accordingly. 
+
+
+|| PLAY AGAINST OUR AI (If you dare!) ||
+First, there was Siri. Then, there was Alexa. And now, there's david m(AI)lan! 
+To play against the AI, just click "Play AI" in the navigation bar or the index page.
+
+The user goes first, typing a letter, and then the AI returns a letter, and so on and so forth until you (most likely) lose.
+The first letter sometimes takes a few seconds to get back from the AI, but after that should be smooth sailing.
+(The reason is the AI was written to make it near-impossible to win against it, 
+so there's significant processing involved to optimize the win rate when only 1 letter has been played--more on this in the design section).
+
+
+|| OUTRO ||
+Enjoy! We sure did :)
+Much love,
+The Ghost(50)Busters
+
+
+
+

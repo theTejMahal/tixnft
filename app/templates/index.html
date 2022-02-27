@@ -1,0 +1,57 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Index
+{% endblock %}
+
+{% block main %}
+
+<h2>Welcome to Ghost50,</h2>
+<h3><i>a modern take on the word game <a href="https://www.youtube.com/watch?v=p_Sw0NfJp50">ghost</a></i></h3>
+
+ 
+<a href="{{ url_for('createRoom') }}" class="btn btn-large">Create Game</a>
+<a href="{{ url_for('joinRoom') }}" class="btn btn-large">Join Game</a>
+<a href="{{ url_for('playAI') }}" class="btn btn-large">Play AI</a>
+
+<br>
+<br>
+<p style="text-align:left;"> 
+<b>Rules:</b> In Ghost50, everyone is a winner!* 
+<br>
+Players go in a circle, submitting one letter at a time, forming a growing word fragment. You lose if:
+<br>
+1) the letter you entered forms a 4-letter or longer word <br>
+2) the letter you type cannot be built upon to form a valid word <br>
+3) the time you had to enter a letter runs out. <br>
+<br>
+*Except the loser.
+</p>
+
+<h3>High Scores:</h3>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>User</th>
+            <th>Score</th>
+        </tr>
+    </thead>
+    <tfoot>
+        <tr>
+            <td colspan="3"></td>
+        </tr>
+    </tfoot>
+    <tbody>
+        {% for user in users %}
+            <tr>
+              <td>{{ user.username }}</td>
+              <td>{{ user.score }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+    
+</table>
+
+ 
+{% endblock %}
+

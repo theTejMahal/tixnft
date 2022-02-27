@@ -1,0 +1,148 @@
+|| OVERVIEW ||
+
+The thought process behind ghost50 was to create a unified framework for users to play the game ghost, 
+either in multiplayer mode or against an AI with a cohesive transition between them, 
+so users could play a combination of games against other users and our AI without having to log out.
+
+Peewee, Flask, MySQL, Twitter Bootstrap, Pytrie, and more broadly, 
+Python, Javascript, HTML, and CSS were harnessed and integrated to create our fresh take on ghost,
+complete with dynamically updating webpages, ghost50's modern user framework, and our genius AI.
+
+A key feature of our website was dynamic updating of displays so that users avoid the hassle of refreshing, which we found integral to smooth gameplay.
+As such, our join rooms, waiting rooms, and game play pages dynamically update their displays 
+using the Flask framework to integrate Python, Javascript, and HTML code.
+
+DATABASE:
+We used the Python ORM Peewee to drastically ease our database/mySQL interaction. 
+Although there was a significant learning curve, we found the framework to be worth it in ensuring efficient database management.
+Our model has three tables: User, Match, and User_Match, which were chosen in consistentency with the singular-naming convention of Peewee.
+Tables contain the minimum amount of necessary information to run our framework, so as to minimize storage space. We have also attempted
+to link our tables together via foreign keys as much as possible to ensure that we aren't storing the same information twice. 
+The table User contains user information, including id, username, hashed password, score, and a column for AI use. 
+Match has information for every game, and also keeps track of the state of the game.
+We use Match to store whether individual matches are still in the waiting room, have already started, what the current_word in play is, and so on. 
+Finally, we use the table User_Match to represent the users in specific games - i.e., we create a new row in user_match for each user in each game they're
+in, which allows us to link given users to a certain match, and easily find all of the users in a given match. 
+This table is also where we keep track 
+of whether or not a user has pressed the "Start Game" button in the waiting room. 
+All tables can be further inspected in models.py.
+
+
+USER ACCOUNTS:
+Accounts are the glue holding together our game interaction framework. 
+They facilitate the interaction between multiple players in our match rooms, and allow for distinction of users in the high score table.
+
+If a user has not yet created an account, they can create an account at the register page (register.html), with a valid and unique username and password. 
+If the user is not logged in, they are redirected to a login page (login.html), where they must enter their username and password to proceed.
+The table of user info is stored in the table 'Users' in the database, 
+where register adds users and login checks to ensure usernames and passwords are valid. 
+Passwords are hashed to protect user info, and user inputs are sanitized to ensure their validity and prevent injection attacks.
+Users can change their account passwords, to allow for account flexibility.
+Being logged in is required to play games, so that user scores are updated consistently (and high scoring users are valid).
+User accounts are also used to ensure that users are not enrolled in multiple different games at the same time; 
+users can only play one game of ghost50 at once. 
+
+INDEX:
+Once the user has logged in, they are directed to the ghost50 homepage (index.html). 
+This displays the rules for easy access, as well as our high score table with users and scores, which gets data from our mySQL table.
+The table is sorted in descending order, so the highest-scoring users enjoy commendation at the top of the table.
+
+
+CREATING A GAME:
+If the user decides to create a round of ghost50 (a "game"), they have to enter a unique game name, and the match then gets added as a row 
+in the match table. If a game name already exists, they are prompted to enter a unique game name.
+They're then redirected to the waiting room page.
+
+JOINING A GAME:
+If the user decides to join a game then they will be taken to a page that houses a list of eligible games to join.
+This page gets the available games from all of the games in the Match table that have the field "has_started" still 
+listed as its default of "False," which means that the users in the waiting room haven't all pressed start game yet.
+
+To make the list of rooms dynamically update, we use javascript to call our flask "endpoint" to get new data on a timer (returned as json data). While a 
+socket could have been used for similar requests, we felt that the simplicity of our requests made just using a timer to refresh our data
+a much more streamlined and simple approach. 
+
+WAITING ROOM: 
+When a user clicks on a specific game from join room, they will be taken to a waiting room for that game. Going into the waiting room increases
+the "num_players" for that given match's row in the Match table and updates their own User_Match field (aligned with their user_id) 
+to have it's "match" column equal to the correct game that they have joined. 
+Once in the waiting room they will see any other users that are present in that waiting room. Users must press 
+the "start game" button, which will update their status in the "User_Match" table from "Waiting" to "Ready". 
+
+The list of users and their statuses are all updating automatically/dynamically, without requiring user refresh - we did this 
+with the same approach as the previous section.
+
+Once everyone in that waiting room's status is "Ready" (which is checked at a regular interval to ensure dynamic redirecting, using Javascript and Flask endpoints),
+they will all be redirected to the game page. 
+This was to ensure that if users left waiting rooms by hitting the backbar or clicking a link to leave, they would not be added to the actual game play.
+
+--
+We feel you, this document is long, (and dry...and technical....) here's a cat video to make up for it: https://www.youtube.com/watch?v=oqNKD9YVe4U. 
+aaand now we're back.
+--
+
+GAME PLAY:
+If a user tries to enter a game they are unauthorized to enter by manually altering their browser URL, 
+our framework catches this and redirects them to "getoutahere.html," to protect users currently playing in their match game.
+
+The game play page displays the users playing and each user's overall scores across the top of the page, 
+highlighting in blue the player whose turn it is for easy visibility.
+These values are updated dynamically with the same approach as described in "joining a game."
+
+User order is determined in descending order of score to make gameplay fair.
+This way, one can make the high score table just by being a "free-rider"--that is, being the last user in games where the users who go earlier have more chances to finish words and lose.
+Instead, users with higher scores must play first to ensure they're actually good at ghost50, and didn't just get lucky being later players.
+
+The time for each turn is dynamically displayed using Flask and updated every second (as seconds tick down on the timer).
+TURN_TIME is a constant (currently set at 25 seconds) but easy to change from application.py, making future modification easy.
+
+The text input to enter a letter is dynamically displayed to only the player whose turn it is.
+This form only accepts a single character, so that users can only input one letter at a time, as consistent with the rules of ghost.
+Note that if the user types an invalid character, like "$", 
+this doesn't form a valid word fragment so gameOver() is triggered and they lose.
+Characters are converted to lowercase for consistency.
+
+When a user types a letter and presses submit, it sends a post request through the form and dynamically updates their play page.
+Everyone else's "current word" is updated dynamically, and the player whose turn just ended will no longer see the text input form.
+It reappears on the next player's page.
+
+We abstracted out the check function to determine whether to trigger user loss, so as to avoid repeating code across interfaces (using application.py, checkWord).
+
+When someone loses, Javascript displays a translucent overlay (as an HTML overlay) which says Game Over and shows the results of the game, 
+allowing the users to play more games or leave. The overlay displays the loser and winners of the game.
+
+Afterwards, everyone is taken back to the homepage and scores are updated accordingly. 
+
+DICTIONARY:
+A trie is utilized to hold all of the words from the base word list (words.txt), 
+which makes searching to check the players' words extremely fast. 
+This is used to determine if users lose by completing a valid word or creating an invalid word fragment, and also in the AI.
+As compared to a simple list, which requires O(n) to access every element, which would especially slow down the AI's minimax algorithm, 
+the trie only requires O(1) to check for an element, making this the most efficient data structure for our use.
+This also makes it easier to do prefix searches to query potential word formations from word fragments, 
+which is harnessed extensively for the AI.
+
+AI:
+In the AI user interface, the player types a letter, and then the AI comes up with the next letter to play,
+and displays it back to the user. 
+You go back and forth with the computer until one of you completes a word or chooses a letter from which no valid words can be formed.
+
+To determine which letter to play, the AI uses the minimax algorithm (https://en.wikipedia.org/wiki/Minimax), 
+and utilizes alpha-beta pruning (https://en.wikipedia.org/wiki/Alpha%E2%80%93beta_pruning) to speed up the process of searching for
+results through our list of words, stored in the trie. 
+The minimax algorithm is the industry standard for two-player AI games; we chose it because it is the most efficient and effective.
+Modified for ghost50 in ai.py, none of us were able to beat our AI, despite how hard we tried.
+It sometimes takes a few seconds on the first move since it has over a hundred thousand words to search through
+(although alpha-beta pruning, and searching with a trie, rather than a list, makes that significantly smaller and faster),
+but then is usually very fast.
+
+
+HIGH SCORE TABLE: 
+Each user has an account and a "score" field in their User row. When a player is a winner in a game, their 
+score field increases by 1, and if they are a loser it decreases by 1.
+Having a negative overall score is allowed so as to differentiate between players.
+For example, a user who has lost one game is higher ranked than users who have lost many games, with the score of -1 being higher on the table than -100.
+On the index page the high score table displays all of the different registered users and their current high scores 
+(sorted descendingly, so the highest-scoring users can bask in the glory of a prime high score position).
+We hope you make the prime spot!
+

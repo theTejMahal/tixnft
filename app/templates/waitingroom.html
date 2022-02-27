@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+    <head>
+
+        <!-- documentation at http://getbootstrap.com/, alternative themes at https://www.bootstrapcdn.com/bootswatch/ -->
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"/>
+        <link href="{{ url_for('static', filename='styles.css') }}" rel="stylesheet"/>
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css"/>
+
+        <meta charset="utf-8"/>
+        <meta content="initial-scale=1, width=device-width" name="viewport"/>
+
+        <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+        {{ JSGlue.include() }}
+
+        <!-- app's own JavaScript -->
+        <script src="{{ url_for('static', filename='scripts.js') }}"></script>
+
+
+        <title>Ghost50: Waiting Room</title>
+
+    </head>
+
+    <body onload="callWaitingRoom();"> 
+
+        <div class="container">
+
+            <nav class="navbar navbar-inverse">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                        <button aria-expanded="false" class="navbar-toggle collapsed" data-target="#navbar" data-toggle="collapse" type="button">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand" href="{{ url_for('index') }}"><span class="gray">Ghost50</span></a>
+                    </div>
+                    <div class="collapse navbar-collapse" id="navbar">
+                        {% if session.user_id %}
+                            <ul class="nav navbar-nav">
+                                <li><a href="{{ url_for('createRoom') }}">Create</a></li>
+                                <li><a href="{{ url_for('joinRoom') }}">Join</a></li>
+                                <li><a href="{{ url_for('playAI') }}">Play AI</a></li>
+                            </ul>
+                            <ul class="nav navbar-nav navbar-right">
+                                <li><a href="{{ url_for('changepassword') }}">Change Password</a></li>
+                                <li><a href="{{ url_for('logout') }}">Log Out</a></li>
+                                <li><a href="https://github.com/theTejMahal/ghost50-final"><i class="fab fa-github"></i></a></li>
+                                <li><a href="https://www.youtube.com/watch?v=p_Sw0NfJp50"><i class="fab fa-youtube"></i></a></li>
+                            </ul>
+                        {% else %}
+                            <ul class="nav navbar-nav navbar-right">
+                                <li><a href="{{ url_for('register') }}">Register</a></li>
+                                <li><a href="{{ url_for('login') }}">Log In</a></li>
+                                <li><a href="https://github.com/theTejMahal/ghost50-final"><i class="fab fa-github"></i></a></li>
+                                <li><a href="https://www.youtube.com/watch?v=p_Sw0NfJp50"><i class="fab fa-youtube"></i></a></li>
+                            </ul>
+                        {% endif %}
+                    </div>
+                </div>
+            </nav>
+
+            {% if get_flashed_messages() %}
+                <header>
+                    <div class="alert alert-info" role="alert">
+                        {{ get_flashed_messages() | join(" ") }}
+                    </div>
+                </header>
+            {% endif %}
+
+            <main>
+    
+            <div id="waitingroomid"></div>
+            
+
+            <button onclick=startGamePressed() type="button" class="btn btn-default">Start Game</button>
+
+            </main>
+            
+        </div>
+    
+    </body>
+
+</html>
+
