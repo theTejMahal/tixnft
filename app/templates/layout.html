@@ -18,18 +18,10 @@
 
         <!-- app's own JavaScript -->
         <script src="{{ url_for('static', filename='scripts.js') }}"></script>
+
+        <!-- MetaMask -->
         <script src="https://unpkg.com/@metamask/detect-provider/dist/detect-provider.min.js"></script>
-
-         <!-- MetaMask -->       
-        <script type="text/javascript">
-        const provider = await detectEthereumProvider()
-
-        if (provider) {
-            // handle provider
-        } else {
-            // handle no provider
-        }
-        </script>
+       
         {% block script %}{% endblock %}
 
 
@@ -86,6 +78,27 @@
             {% endif %}
 
             <main>
+                <script type="text/javascript">
+                    const provider = await detectEthereumProvider()
+            
+                    if (provider) {
+                        // handle provider
+                    } else {
+                        const ethereumButton = document.querySelector('.enableEthereumButton');
+                        const showAccount = document.querySelector('.showAccount');
+            
+                        ethereumButton.addEventListener('click', () => {
+                        getAccount();
+                        });
+            
+                        async function getAccount() {
+                        const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+                        const account = accounts[0];
+                        showAccount.innerHTML = account;
+                        }
+                    }
+                </script>
+
                 {% block main %}{% endblock %}
             </main>
             
