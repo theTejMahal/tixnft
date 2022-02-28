@@ -87,7 +87,6 @@
             <!-- Detect wallet -->
             <script type="module">
                 const showConnection = document.querySelector('.showConnection');
-                showConnection.innerHTML = "Not connected";
                 const provider = await detectEthereumProvider()
         
                 if (provider) {
