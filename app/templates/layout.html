@@ -25,6 +25,7 @@
         <!-- Detect wallet -->
         <script type="text/javascript">
             const provider = await detectEthereumProvider()
+            const showConnection = document.querySelector('.showConnection');
     
             if (provider) {
                 // handle provider
