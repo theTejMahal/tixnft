@@ -85,40 +85,85 @@
                 {% block main %}{% endblock %}
 
 
-            <!-- Detect wallet -->
-            <script type="module">
-                // import detectEthereumProvider from '@metamask/detect-provider';
-                const showConnection = document.querySelector('.showConnection');
-                showConnection.innerHTML = "Not connected";
-                const provider = await detectEthereumProvider()
-        
-                if (provider) {
-                    // handle provider
-                    showConnection.innerHTML = "Connected";
-                } else {
-                    showConnection.innerHTML = "Not connected";
-                    console.log('Please install MetaMask!');
-                }
-            </script>   
-
             <!-- Connect wallet -->
             <script type="module">
-                await window.ethereum.enable();
-                console.log('Connect Wallet Button!');           
-                const ethereumButton = document.querySelector('.enableEthereumButton');
-                const showAccount = document.querySelector('.showAccount');
-        
-                ethereumButton.addEventListener('click', () => {
-                getAccount();
-                console.log('ONCLICK Connect Wallet Button');           
+            export const connectWallet = async () => {
+            if (window.ethereum) {
+                try {
+                const addressArray = await window.ethereum.request({
+                    method: "eth_requestAccounts",
                 });
-        
-                async function getAccount() {
-                const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
-                const account = accounts[0];
-                showAccount.innerHTML = account;
+                const obj = {
+                    status: "👆🏽 Write a message in the text-field above.",
+                    address: addressArray[0],
+                };
+                return obj;
+                } catch (err) {
+                return {
+                    address: "",
+                    status: err.message,
+                };
                 }
+            } else {
+                return {
+                address: "",
+                status: (
+                    <span>
+                    <p>
+                        {" "}
+                        <a target="_blank" href={`https://metamask.io/download.html`}>
+                        You must install Metamask, a virtual Ethereum wallet, in your
+                        browser.
+                        </a>
+                    </p>
+                    </span>
+                ),
+                };
+            }
+            };
+
+            export const getCurrentWalletConnected = async () => {
+            if (window.ethereum) {
+                try {
+                const addressArray = await window.ethereum.request({
+                    method: "eth_accounts",
+                });
+                if (addressArray.length > 0) {
+                    return {
+                    address: addressArray[0],
+                    status: "Write a message in the text-field above.",
+                    };
+                } else {
+                    return {
+                    address: "",
+                    status: "Connect to Metamask using the top right button.",
+                    };
+                }
+                } catch (err) {
+                return {
+                    address: "",
+                    status: err.message,
+                };
+                }
+            } else {
+                return {
+                address: "",
+                status: (
+                    <span>
+                    <p>
+                        {" "}
+                        <a target="_blank" href={`https://metamask.io/download.html`}>
+                        You must install Metamask, a virtual Ethereum wallet, in your
+                        browser.
+                        </a>
+                    </p>
+                    </span>
+                ),
+                };
+            }
+            };
             </script>
+
             </main>
             
         </div>
