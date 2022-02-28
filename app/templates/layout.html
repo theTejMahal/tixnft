@@ -103,6 +103,7 @@
 
             <!-- Connect wallet -->
             <script type="text/javascript">
+                await window.ethereum.enable();
                 console.log('Connect Wallet Button!');           
                 const ethereumButton = document.querySelector('.enableEthereumButton');
                 const showAccount = document.querySelector('.showAccount');
