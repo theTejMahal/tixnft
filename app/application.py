@@ -179,9 +179,9 @@ def changepassword():
     else:
         return render_template("changepassword.html")
         
-@app.route("/createroom", methods=["GET", "POST"])
-def createRoom():
-    """Creates a new match room"""
+@app.route("/createEvent", methods=["GET", "POST"])
+def createEvent():
+    """Creates a new event"""
     
     error = None
 
@@ -214,7 +214,7 @@ def createRoom():
 
 
     # else if user reached route via GET (as by clicking a link or via redirect) or there was an error
-    return render_template("createroom.html", error=error)
+    return render_template("createEvent.html", error=error)
     
 
 @app.route("/joinroom", methods=["GET", "POST"])

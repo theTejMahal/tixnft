@@ -41,7 +41,7 @@
                     <div class="collapse navbar-collapse" id="navbar">
                         {% if session.user_id %}
                             <ul class="nav navbar-nav">
-                                <li><a href="{{ url_for('createRoom') }}">Create</a></li>
+                                <li><a href="{{ url_for('createEvent') }}">Create</a></li>
                                 <li><a href="{{ url_for('joinRoom') }}">Join</a></li>
                                 <li><a href="{{ url_for('playAI') }}">Play AI</a></li>
                             </ul>
