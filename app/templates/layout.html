@@ -24,8 +24,10 @@
 
         <!-- Detect wallet -->
         <script type="text/javascript">
-            const provider = await detectEthereumProvider()
+            import detectEthereumProvider from '@metamask/detect-provider';
             const showConnection = document.querySelector('.showConnection');
+            showConnection.innerHTML = "Not connected";
+            const provider = await detectEthereumProvider()
     
             if (provider) {
                 // handle provider
@@ -33,17 +35,19 @@
             }
             } else {
                 showConnection.innerHTML = "Not connected";
+                console.log('Please install MetaMask!');
             }
         </script>   
 
         <!-- Connect wallet -->
         <script type="text/javascript">
-            
+            console.log('Connect Wallet Button!');           
             const ethereumButton = document.querySelector('.enableEthereumButton');
             const showAccount = document.querySelector('.showAccount');
     
             ethereumButton.addEventListener('click', () => {
             getAccount();
+            console.log('ONCLICK Connect Wallet Button');           
             });
     
             async function getAccount() {
