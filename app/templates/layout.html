@@ -79,8 +79,6 @@
 
             <main>
                 <p><span class="showConnection"></span></p>
-                <button class="enableEthereumButton">Link MetaMask</button>
-                <p>Account: <span class="showAccount"></span></p>
 
                 {% block main %}{% endblock %}
 
@@ -92,7 +90,7 @@
                 const provider = await detectEthereumProvider()
         
                 if (provider) {
-                    // handle provider
+                    <html><button class="enableEthereumButton">Link MetaMask</button></html>
                 } else {
                     showConnection.innerHTML = "Please install MetaMask: https://metamask.io/download.html";
                 }
@@ -103,7 +101,6 @@
                 await window.ethereum.enable();
                 console.log('Connect Wallet Button!');           
                 const ethereumButton = document.querySelector('.enableEthereumButton');
-                const showAccount = document.querySelector('.showAccount');
         
                 ethereumButton.addEventListener('click', () => {
                 getAccount();
@@ -113,7 +110,7 @@
                 async function getAccount() {
                 const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
                 const account = accounts[0];
-                showAccount.innerHTML = account;
+                showConnection.innerHTML = account;
                 }
             </script>
 
