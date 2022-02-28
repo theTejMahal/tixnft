@@ -101,7 +101,7 @@
                     const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
                     const account = accounts[0];
                     showConnection.innerHTML = account;
-                    document.getElementById("enableEthereumButton").style.display = "none"; // remove button once connected
+                    document.getElementById("enableEthereumButton").style.display = 'none'; // remove button once connected
                     }
                 } else {
                     showConnection.innerHTML = "Please first install MetaMask: https://metamask.io/download.html";
