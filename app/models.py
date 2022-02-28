@@ -20,7 +20,8 @@ class User(BaseModell):
     score = IntegerField()
     ai_word = CharField()
 
-# table of events, where each event is a row with an id, name, current_game, current_word,timer, current_turn, has_started, num_players, and game_ended    
+# TODO: add nameEvent, priceTicket, and addressTicket
+# table of tickets, where each event is a row with an id, name (descriptive), current_game, current_word,timer, current_turn, has_started, num_players, and game_ended    
 class Match(BaseModell):
     # only added id manually to suppress warning, usually adds automatically
     id = PrimaryKeyField()
@@ -32,15 +33,6 @@ class Match(BaseModell):
     has_started = BooleanField(default=False)
     num_players = IntegerField(default=0)
     game_ended = BooleanField(default=False)
-
-
-# table of tickets, where each ticket is a row with an id, nameEvent, priceTicket, and addressTicket 
-class Ticket(BaseModell):
-    # only added id manually to suppress warning, usually adds automatically
-    id = PrimaryKeyField()
-    nameEvent = CharField(unique=True)
-    priceTicket = IntegerField()
-    addressTicket = CharField(default="")
 
 # table of user-matches, connecting users and match ids with their status (Waiting versus Ready)    
 class User_Match(BaseModell):
