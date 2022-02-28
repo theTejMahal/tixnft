@@ -21,41 +21,36 @@
 
         <!-- MetaMask -->
         <script src="https://unpkg.com/@metamask/detect-provider/dist/detect-provider.min.js"></script>
-       
+
+        <!-- Detect wallet -->
         <script type="text/javascript">
             const provider = await detectEthereumProvider()
     
             if (provider) {
                 // handle provider
-                const ethereumButton = document.querySelector('.enableEthereumButton');
-                const showAccount = document.querySelector('.showAccount');
-    
-                ethereumButton.addEventListener('click', () => {
-                getAccount();
-                });
-    
-                async function getAccount() {
-                const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
-                const account = accounts[0];
-                showAccount.innerHTML = account;
-                }
+                showConnection.innerHTML = "Connected";
             }
             } else {
-                const ethereumButton = document.querySelector('.enableEthereumButton');
-                const showAccount = document.querySelector('.showAccount');
-    
-                ethereumButton.addEventListener('click', () => {
-                getAccount();
-                });
-    
-                async function getAccount() {
-                const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
-                const account = accounts[0];
-                showAccount.innerHTML = account;
-                }
+                showConnection.innerHTML = "Not connected";
             }
+        </script>   
+
+        <!-- Connect wallet -->
+        <script type="text/javascript">
+            
+            const ethereumButton = document.querySelector('.enableEthereumButton');
+            const showAccount = document.querySelector('.showAccount');
+    
+            ethereumButton.addEventListener('click', () => {
+            getAccount();
+            });
+    
+            async function getAccount() {
+            const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+            const account = accounts[0];
+            showAccount.innerHTML = account;
         </script>
-        
+    
         {% block script %}{% endblock %}
 
 
@@ -112,7 +107,8 @@
             {% endif %}
 
             <main>
-                <button class="enableEthereumButton">Enable Ethereum</button>
+                <h2>Connection: <span class="showConnection"></span></h2>
+               <button class="enableEthereumButton">Enable Ethereum</button>
                 <h2>Account: <span class="showAccount"></span></h2>
 
                 {% block main %}{% endblock %}
