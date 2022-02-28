@@ -79,7 +79,7 @@
 
             <main>
                 <p><span class="showConnection"></span></p>
-                <html><button class="enableEthereumButton">Link MetaMask</button></html>
+                <button class="enableEthereumButton">Connect MetaMask</button></main></br>
 
                 {% block main %}{% endblock %}
 
@@ -95,16 +95,16 @@
             
                     ethereumButton.addEventListener('click', () => {
                     getAccount();
-                    console.log('ONCLICK Connect Wallet Button');           
                     });
             
                     async function getAccount() {
                     const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
                     const account = accounts[0];
                     showConnection.innerHTML = account;
+                    document.getElementById("enableEthereumButton").style.display = "none"; // remove button once connected
                     }
                 } else {
-                    showConnection.innerHTML = "Please install MetaMask: https://metamask.io/download.html";
+                    showConnection.innerHTML = "Please first install MetaMask: https://metamask.io/download.html";
                 }
             </script>   
 
