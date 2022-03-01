@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+
+{% block script %}
+{{ JSGlue.include() }}
+{% endblock %}
+
+{% block title %}
+    Play AI
+{% endblock %}
+
+{% block bodystart %}
+<body onload="callInPlay();" > 
+{% endblock %}
+
+{% block main %}
+<div id="myNav" class="overlay"></div>
+            
+<div id="playUsersDisplay"></div>
+
+<div id="playCurrentWordDisplay"></div>
+
+<div id="playTimerDisplay"></div>
+
+<div id="playSubmitDisplay"></div>
+{% endblock %}
