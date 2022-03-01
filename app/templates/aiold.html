@@ -21,11 +21,9 @@
         <script src="{{ url_for('static', filename='scripts.js') }}"></script>
 
 
-        <title>Ghost50: Play</title>
+        <title>Ghost50: AI</title>
 
     </head>
-
-    <body onload="callInPlay();"> 
 
         <div class="container">
 
@@ -46,7 +44,6 @@
                                 <li><a href="{{ url_for('createEvent') }}">Create</a></li>
                                 <li><a href="{{ url_for('joinRoom') }}">Join</a></li>
                                 <li><a href="{{ url_for('playAI') }}">Play AI</a></li>
-
                             </ul>
                             <ul class="nav navbar-nav navbar-right">
                                 <li><a href="{{ url_for('changepassword') }}">Change Password</a></li>
@@ -65,6 +62,8 @@
                     </div>
                 </div>
             </nav>
+            
+
 
             {% if get_flashed_messages() %}
                 <header>
@@ -73,25 +72,59 @@
                     </div>
                 </header>
             {% endif %}
+            
+            {% if error %}
+                <p class=error><strong>Error:</strong> {{ error }}
+            {% endif %}
 
             <main>
+                
+            {% if data["game_over"] %}
             
+                <h4>{{ data["message"] }} </h4>
+                <p> The losing word fragment was: {{ data["current_word"] }}.</p>
+                <a href="{{ url_for('playAI') }}">Play Again!</a>
+                
+            {% elif data["first_time"] %}
             
-            <div id="myNav" class="overlay"></div>
-            
-            <div id="playUsersDisplay"></div>
-            
-            <div id="playCurrentWordDisplay"></div>
+                <h3>Welcome, peasants! I am m(AI)lan </h3>
+                <h4> Type a letter to begin: </h4>
+                <h5>(Be patient! Being a genius takes time) </h5>
+                
+                <form action="{{ url_for('playAI') }}" method="post">
+                <fieldset>
+                <div class="form-group">
+                    <input autocomplete="off" autofocus class="form-control" name="letter" placeholder="Letter" maxlength="1" type="text"/>
+                </div>
+                
+                <div class="form-group">
+                    <button class="btn btn-default" type="submit">Submit</button>
+                </div>
+                </fieldset>
+                </form>
 
-            <div id="playTimerDisplay"></div>
+            {% else %}
+                
+                <h2>Current Word: {{ data["current_word"] }} </h2>
+                <h3> {{ data["message"] }} </h3>
+                
+                <form action="{{ url_for('playAI') }}" method="post">
+                <fieldset>
+                <div class="form-group">
+                    <input autocomplete="off" autofocus class="form-control" name="letter" placeholder="Letter" type="text"/>
+                </div>
+                
+                <div class="form-group">
+                    <button class="btn btn-default" type="submit">Submit</button>
+                </div>
+                </fieldset>
+                </form>
+            
+            {% endif %}
             
             
-            <div id="playSubmitDisplay"></div>
+            </div>
 
-            </main>
-            
-        </div>
-    
     </body>
 
 </html>
