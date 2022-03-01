@@ -4,15 +4,14 @@
     Browse Tickets
 {% endblock %}
 
+{% block bodystart %}
+<body onload="callJoinGames();" > 
+{% endblock %}
+
 {% block main %}
 
 {% if error %}
     <p class=error><strong>Error:</strong> {{ error }}
 {% endif %}
 
-<div id="joinroomid">
-    <script type="text/javascript">
-        callJoinGames();
-     </script>     
-</div>
 {% endblock %}
