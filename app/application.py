@@ -189,22 +189,22 @@ def createEvent():
     if request.method == "POST":
     
         
-        # if the user was part of an old game, remove them and lower count of players
-        removeUser()
+        # # if the user was part of an old game, remove them and lower count of players
+        # removeUser()
     
-        # ensure game name was entered
+        # ensure event name was entered
         if not request.form.get("name"):
-            error = 'Must provide a game name'
+            error = 'Must provide an event name'
             
-        # insert game, make sure unique
+        # insert event, make sure unique
         else:
             try:
                 with db.transaction():
-                    # Attempt to create the game. If the name is taken, due to the
+                    # Attempt to create the event. If the name is taken, due to the
                     # unique constraint, the database will raise an IntegrityError.
                     match = Match.create(name=request.form.get('name'))
                 
-                flash('Your game has been created!')
+                flash('Your event has been created!')
 
                 # redirect user to home page
                 return redirect(url_for("waitingRoom",match_id=match.id) )
@@ -221,6 +221,11 @@ def createEvent():
 def joinRoom():
     """Renders the join room page"""    
     return render_template("joinroom.html")
+
+@app.route("/joinroomnew", methods=["GET", "POST"])
+def joinRoomNew():
+    """Renders the new join room page"""    
+    return render_template("joinroomnew.html")
     
 @app.route("/_games", methods=["GET", "POST"])
 def getGames(): 
