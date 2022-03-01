@@ -1,5 +1,9 @@
 {% extends "layout.html" %}
 
+{% block script %}
+{{ JSGlue.include() }}
+{% endblock %}
+
 {% block title %}
     Browse Tickets
 {% endblock %}
