@@ -222,10 +222,10 @@ def joinRoom():
     """Renders the join room page"""    
     return render_template("joinroom.html")
 
-@app.route("/joinroomnew", methods=["GET", "POST"])
-def joinRoomNew():
+@app.route("/joinroomold", methods=["GET", "POST"])
+def joinRoomOld():
     """Renders the new join room page"""    
-    return render_template("joinroomnew.html")
+    return render_template("joinroomold.html")
     
 @app.route("/_games", methods=["GET", "POST"])
 def getGames(): 
