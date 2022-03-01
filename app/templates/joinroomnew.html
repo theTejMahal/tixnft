@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Browse Tickets
+{% endblock %}
+
+{% block main %}
+
+{% if error %}
+    <p class=error><strong>Error:</strong> {{ error }}
+{% endif %}
+
+{% if get_flashed_messages() %}
+<header>
+<div class="alert alert-info" role="alert">
+{{ get_flashed_messages() | join(" ") }}
+</div>
+</header>
+{% endif %}
+
+<div onload="callJoinGames();" id="joinroomid"></div>
+{% endblock %}
