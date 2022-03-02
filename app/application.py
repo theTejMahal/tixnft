@@ -204,9 +204,11 @@ def createEvent():
                     # unique constraint, the database will raise an IntegrityError.
                     match = Match.create(name=request.form.get('name'))
                 
+                mintNFT()
+
                 flash('Your event has been created!')
 
-                # redirect user to home page
+                # redirect user to waiting room
                 return redirect(url_for("waitingRoom",match_id=match.id) )
             
             except IntegrityError as err:
@@ -216,16 +218,14 @@ def createEvent():
     # else if user reached route via GET (as by clicking a link or via redirect) or there was an error
     return render_template("createEvent.html", error=error)
     
+# NFT functionality
+def mintNFT():
+    return True
 
 @app.route("/joinroom", methods=["GET", "POST"])
 def joinRoom():
     """Renders the join room page"""    
     return render_template("joinroom.html")
-
-@app.route("/joinroomold", methods=["GET", "POST"])
-def joinRoomOld():
-    """Renders the new join room page"""    
-    return render_template("joinroomold.html")
     
 @app.route("/_games", methods=["GET", "POST"])
 def getGames(): 
@@ -337,7 +337,6 @@ def shouldIGo():
     
     # if game has started, direct them
     return jsonify({"status" : Match.get(id=match_id).has_started })
-
 
 #THE GAME PAGE - HERE'S WHERE THE ACTION STARTS
 
