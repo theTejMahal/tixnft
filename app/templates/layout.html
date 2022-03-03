@@ -17,7 +17,7 @@
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
         {% block script %}{% endblock %}
-        
+
         <!-- app's own JavaScript -->
         <script src="{{ url_for('static', filename='scripts.js') }}"></script>
 
@@ -79,7 +79,7 @@
 
             <main>
                 <p><span class="showConnection"></span></p>
-                <button class="enableEthereumButton">Connect MetaMask</button></br></br>
+                <button class="enableEthereumButton">Connect virtual wallet</button></br></br>
 
                 {% block main %}{% endblock %}
 
@@ -103,7 +103,7 @@
                     showConnection.innerHTML = account;
                     }
                 } else {
-                    showConnection.innerHTML = "Please first install MetaMask: https://metamask.io/download.html";
+                    showConnection.innerHTML = "Please first install a virtual wallet, like MetaMask: https://metamask.io/download.html";
                 }
             </script>   
 
